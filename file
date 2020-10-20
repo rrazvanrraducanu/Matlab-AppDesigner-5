@@ -1,0 +1,104 @@
+classdef app5 < matlab.apps.AppBase
+
+    % Properties that correspond to app components
+    properties (Access = public)
+        UIFigure     matlab.ui.Figure
+        Label        matlab.ui.control.Label
+        EditField    matlab.ui.control.NumericEditField
+        Label_2      matlab.ui.control.Label
+        Label_3      matlab.ui.control.Label
+        EditField_2  matlab.ui.control.NumericEditField
+        Button       matlab.ui.control.Button
+        Label_4      matlab.ui.control.Label
+        EditField_3  matlab.ui.control.NumericEditField
+    end
+
+    methods (Access = private)
+
+        % Button pushed function: Button
+        function ButtonPushed(app, event)
+            a=app.EditField.Value;
+            b=app.EditField_2.Value;
+            c=a+b;
+            app.EditField_3.Value=c;
+        end
+    end
+
+    % App initialization and construction
+    methods (Access = private)
+
+        % Create UIFigure and components
+        function createComponents(app)
+
+            % Create UIFigure
+            app.UIFigure = uifigure;
+            app.UIFigure.Position = [100 100 640 480];
+            app.UIFigure.Name = 'UI Figure';
+
+            % Create Label
+            app.Label = uilabel(app.UIFigure);
+            app.Label.HorizontalAlignment = 'right';
+            app.Label.Position = [64 416 25 22];
+            app.Label.Text = '';
+
+            % Create EditField
+            app.EditField = uieditfield(app.UIFigure, 'numeric');
+            app.EditField.Position = [104 416 67 22];
+
+            % Create Label_2
+            app.Label_2 = uilabel(app.UIFigure);
+            app.Label_2.Position = [189 416 25 22];
+            app.Label_2.Text = '+';
+
+            % Create Label_3
+            app.Label_3 = uilabel(app.UIFigure);
+            app.Label_3.HorizontalAlignment = 'right';
+            app.Label_3.Position = [249 416 25 22];
+            app.Label_3.Text = '';
+
+            % Create EditField_2
+            app.EditField_2 = uieditfield(app.UIFigure, 'numeric');
+            app.EditField_2.Position = [214 416 62 22];
+
+            % Create Button
+            app.Button = uibutton(app.UIFigure, 'push');
+            app.Button.ButtonPushedFcn = createCallbackFcn(app, @ButtonPushed, true);
+            app.Button.Position = [295 416 40 22];
+            app.Button.Text = '=';
+
+            % Create Label_4
+            app.Label_4 = uilabel(app.UIFigure);
+            app.Label_4.HorizontalAlignment = 'right';
+            app.Label_4.Position = [314 416 25 22];
+            app.Label_4.Text = '';
+
+            % Create EditField_3
+            app.EditField_3 = uieditfield(app.UIFigure, 'numeric');
+            app.EditField_3.Position = [354 416 100 22];
+        end
+    end
+
+    methods (Access = public)
+
+        % Construct app
+        function app = app5
+
+            % Create and configure components
+            createComponents(app)
+
+            % Register the app with App Designer
+            registerApp(app, app.UIFigure)
+
+            if nargout == 0
+                clear app
+            end
+        end
+
+        % Code that executes before app deletion
+        function delete(app)
+
+            % Delete UIFigure when app is deleted
+            delete(app.UIFigure)
+        end
+    end
+end
